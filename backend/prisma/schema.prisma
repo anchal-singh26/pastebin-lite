@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Paste {
+  id        String   @id @default(cuid())
+  content   String
+   ttl       Int?     // TTL in seconds
+  maxViews  Int?     // Maximum allowed views
+  views     Int      @default(0)
+  createdAt DateTime @default(now())
+}
