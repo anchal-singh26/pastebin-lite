@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://anchal-singh26.github.io/pastebin-lite",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

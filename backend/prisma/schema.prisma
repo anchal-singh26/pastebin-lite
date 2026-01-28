@@ -8,10 +8,11 @@ datasource db {
 }
 
 model Paste {
-  id        String   @id @default(cuid())
-  content   String
-   ttl       Int?     // TTL in seconds
-  maxViews  Int?     // Maximum allowed views
-  views     Int      @default(0)
-  createdAt DateTime @default(now())
+  id          String   @id
+  content     String
+  createdAt   DateTime @default(now())
+
+  expiresAt   DateTime?
+  maxViews    Int?
+  viewsUsed   Int      @default(0)
 }

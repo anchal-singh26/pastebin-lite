@@ -1,34 +1,22 @@
+import "dotenv/config";
 import express from "express";
-import prisma from "./prisma.js";
 import cors from "cors";
+
+import healthRoutes from "./routes/health.js";
 import pasteRoutes from "./routes/paste.js";
+import pageRoutes from "./routes/page.js";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-/* ✅ USE cors (NOW TS IS HAPPY) */
-app.use(
-  cors({
-    origin: "http://localhost:5174",
-  })
-);
-
-/* ✅ USE body parser */
+app.use(cors());
 app.use(express.json());
 
-/* ✅ USE pasteRoutes (NOW TS IS HAPPY) */
+// REQUIRED ROUTES
+app.use("/api", healthRoutes);
 app.use("/api/pastes", pasteRoutes);
+app.use("/", pageRoutes);
 
-/* Health check */
-app.get("/healthz", async (req, res) => {
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-    res.json({ ok: true });
-  } catch {
-    res.status(500).json({ ok: false });
-  }
+app.listen(PORT, () => {
+  console.log(`✅ Backend running on http://localhost:${PORT}`);
 });
-
-app.listen(PORT, () =>
-  console.log(`✅ Server running on http://localhost:${PORT}`)
-);
